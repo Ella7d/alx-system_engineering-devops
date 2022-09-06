@@ -1,2 +1,2 @@
 #!/bin/bash
-echo $(($FLOAT)) > $NUM
+echo $((%.2f)) $NUM
