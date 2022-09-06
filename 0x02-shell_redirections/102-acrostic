@@ -1,0 +1,2 @@
+#!/bin/bash
+echo -ne $(cur -c-1 | tr -d '\n')'\n'
