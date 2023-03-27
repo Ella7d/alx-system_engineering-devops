@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 # Generate school ssh key protected by phrase
-ssh-keygen -t rsa -f school -b 4060 -N betty
+ssh-keygen -t rsa -f school -b 4096 -N betty
