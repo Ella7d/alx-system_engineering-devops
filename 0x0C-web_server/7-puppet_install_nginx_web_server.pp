@@ -1,6 +1,28 @@
-# Installs an Nginx server
-exec {'install':
-  provider => shell,
-  command  => 'sudo apt-get -y update ; sudo apt-get -y install nginx ; echo "Hello World!" | sudo tee /var/www/html/index.nginx-debian.html ; sudo sed -i "s/server_name _;/server_name _;\n\trewrite ^\/redirect_me https://www.nginx.com/products/nginx-management-suite/ permanent;/" /etc/nginx/sites-available/default ; sudo service nginx start',
+# Setup New Ubuntu server with nginx
+
+exec { 'install system':
+	command  => '/usr/bin/apt-get update ; sudo apt-get -y install nginx',
+	provider => shell,
+
 }
+
+package { 'nginx':
+	ensure  => 'installed',
+	require => Exec[ 'update system']
 }
+
+exec {'Hello':
+	command  => 'echo "Hello World!" | sudo tee /var/www/html/index.html',
+	provider => shell,
+}
+
+
+exec {'redirect_me':
+	command  => 'sed -i "24i\	rewrite ^/redirect_me https://www.youtube.com/watch?v=QH2-TGUlwu4 permanent;" /etc/nginx/sites-available/default',
+	provider => 'shell'
+}
+
+exec {'run':
+	command  => 'sudo service nginx restart',
+	provider => shell,
+}}
