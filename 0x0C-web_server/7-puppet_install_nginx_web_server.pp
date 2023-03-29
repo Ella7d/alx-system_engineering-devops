@@ -1,28 +1,22 @@
-# Setup New Ubuntu server with nginx
-
-exec { 'install system':
-	command  => '/usr/bin/apt-get update ; sudo apt-get -y install nginx',
-	provider => shell,
-
-}
+#!/usr/bin/env bash
+#Install nginx web server
 
 package { 'nginx':
-	ensure  => 'installed',
-	require => Exec[ 'update system']
+  ensure => installed,
 }
 
-exec {'Hello':
-	command  => 'echo "Hello World!" | sudo tee /var/www/html/index.html',
-	provider => shell,
+file_line { 'aaaaa':
+  ensure => 'present',
+  path   => '/etc/nginx/sites-available/default',
+  after  => 'listen 80 default_server;',
+  line   => 'rewrite ^/redirect_me https://www.youtube.com/watch?v=QH2-TGUlwu4 permanent;',
 }
 
-
-exec {'redirect_me':
-	command  => 'sed -i "24i\	rewrite ^/redirect_me https://www.youtube.com/watch?v=QH2-TGUlwu4 permanent;" /etc/nginx/sites-available/default',
-	provider => 'shell'
+file { '/var/www/html/index.html':
+  content => 'Hello World!',
 }
 
-exec {'run':
-	command  => 'sudo service nginx restart',
-	provider => shell,
-}}
+service { 'nginx':
+  ensure  => running,
+  require => Package['nginx'],
+}
