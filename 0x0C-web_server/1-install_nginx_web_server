@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
-# update
+# install nginx and configure remote sever
 sudo apt-get update -y
 # install nginx
 sudo apt-get install nginx -y
 # allow traffic on port 80
 ufw allow 'Nginx HTTP'
 # write message in index.html file
-echo "Hello World!" > /var/www/html/index.html
-sudo service nginx restart
+echo "Hello World!" | sudo tee /var/www/html/index.html 
+sudo service nginx start
