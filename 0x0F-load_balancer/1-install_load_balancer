@@ -3,7 +3,35 @@
 
 sudo apt-get -y update
 sudo apt-get -y install haproxy
-#sudo sed -i "s/ENABLED=0/ENABLED=1/g" /etc/default/haproxy
-sudo cp /etc/haproxy/haproxy.cfg /etc/haproxy/haproxy.cfg.original
-sudo sed -i "\$ a\listen appname\n\tbind 0.0.0.0:80\n\tmode http\n\tstats enable\n\tbalance roundrobin\n\toption httpclose\n\toption forwardfor\n\tserver 984-web-01 35.196.76.187:80 check\n\tserver 984-web-02 34.73.234.24:80 check" /etc/haproxy/haproxy.cfg
-sudo service haproxy start
+
+#configure HAproxy
+cat << EOF > /etc/haproxy/haproxy.cfg
+global
+	deamon
+	maxconn 256
+
+defaults
+	mode http
+	timeout connect 5000ms
+	timeout client 5000ms
+	timeout server 5000ms
+
+frontend http-in
+	bind *:80
+	default_backend servers
+
+backend servers
+	balance roundrobin
+	server 103717-web-01 100.25.12.227:80 check
+	server 103717-web-02 34.207.62.16:80 check
+EOF
+
+#Update hostname configuration
+echo "100.25.12.227"> /etc/hostname
+echo "34.207.62.16">> /etc/hostname
+
+#Enable HAproxy init script
+sudo sed -i 's/ENABLED=0/ENABLED=1/g' /etc/default/haproxy
+
+#HAproxy starts
+/etc/init.d/haproxy start
