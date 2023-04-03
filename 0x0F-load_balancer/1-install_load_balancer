@@ -6,15 +6,6 @@ sudo apt-get -y install haproxy
 
 #configure HAproxy
 cat << EOF > /etc/haproxy/haproxy.cfg
-global
-	deamon
-	maxconn 256
-
-defaults
-	mode http
-	timeout connect 5000ms
-	timeout client 5000ms
-	timeout server 5000ms
 
 frontend http-in
 	bind *:80
