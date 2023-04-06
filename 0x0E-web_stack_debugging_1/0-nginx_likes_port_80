@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
 # Script sets port 80 and fixes nginx
-ln -sf /est/nginx/sites-available/default /etc/nginx/sites-enabled/default
+rm /etc/nginx/sites-enabled/default
+ln -s /etc/nginx/sites-enabled/default /etc/nginx/sites-enabled/default
 service nginx restart
