@@ -13,9 +13,9 @@ dns_configuration () {
 
 	echo -e "The subdomain $sub is a $RECORD record and points to $IP"
 }
-if [ $# -eq 1 ]: then
+if [ $# -eq 1 ]; then
 	for subs in "${subdomains[@]}"; do
-		dns_configuration"$domain" "$subs"
+		dns_configuration "$domain" "$subs"
 	done
 elif [ $# -eq 2 ]; then
 	dns_configuration "$domain" "$sub"
