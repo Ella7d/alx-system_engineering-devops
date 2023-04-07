@@ -35,7 +35,7 @@ defaults
 
 frontend http
         bind *:80
-        bind *:443 ssl crt /etc/haproxy/certs/letsencrypt/live/www.holberton.online
+        bind *:443
         mode http
         default_backend web-backend
 
